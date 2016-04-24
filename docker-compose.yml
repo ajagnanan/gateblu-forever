@@ -1,0 +1,13 @@
+gateblu:
+    image: ajagnanan/gateblu-forever
+    stdin_open: true
+    tty: true
+    restart: always
+    environment:
+      - GATEBLU_SERVER='meshblu.octoblu.com'
+      - GATEBLU_PORT=443
+      - GATEBLU_NODE_PATH=''
+      - GATEBLU_TMP_PATH='./tmp'
+      - GATEBLU_SKIP_INSTALL=false
+      - UUID=
+      - TOKEN=

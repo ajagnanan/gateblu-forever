@@ -39,13 +39,12 @@ class GatebluCommand
       meshbluJSON = require CONFIG_PATH
       options = _.extend {}, DEFAULT_OPTIONS, meshbluJSON, REQUIRED_OPTIONS
     catch error
-      if (process.env.UUID && process.env.TOKEN){
+      if process.env.UUID and process.env.TOKEN
         options.uuid = process.env.UUID;
         options.token = process.env.TOKEN;
-      } else {
+      else 
         console.log('Please provide the uuid and token environment variables or meshblu.json files.');
         @die 'Invalid Meshblu JSON' 
-      }
       
     return options
 

@@ -31,20 +31,23 @@ class GatebluCommand
     @skipInstall = commander.skipInstall ? (process.env.GATEBLU_SKIP_INSTALL?.toLocaleLowerCase() == 'true')
 
   getOptions: =>
+    console.log('Setting options')
     options = _.extend {}, DEFAULT_OPTIONS, REQUIRED_OPTIONS
     options.skipInstall = @skipInstall
-    return options unless fs.existsSync CONFIG_PATH
+    #return options unless fs.existsSync CONFIG_PATH
 
     try
-      meshbluJSON = require CONFIG_PATH
-      options = _.extend {}, DEFAULT_OPTIONS, meshbluJSON, REQUIRED_OPTIONS
+      #meshbluJSON = require CONFIG_PATH
+      #options = _.extend {}, DEFAULT_OPTIONS, meshbluJSON, REQUIRED_OPTIONS
+      options = _.extend {}, DEFAULT_OPTIONS, REQUIRED_OPTIONS
+      if !process.env.UUID and !process.env.TOKEN
+        console.log('Please provide the uuid and token environment variables');
+        throw new Error('UUID and TOKEN not defined.')
+        
+      options.uuid = process.env.UUID;
+      options.token = process.env.TOKEN;
     catch error
-      if process.env.UUID and process.env.TOKEN
-        options.uuid = process.env.UUID;
-        options.token = process.env.TOKEN;
-      else 
-        console.log('Please provide the uuid and token environment variables or meshblu.json files.');
-        @die 'Invalid Meshblu JSON' 
+      @die "#{error}" 
       
     return options
 
